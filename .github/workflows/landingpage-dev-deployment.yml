@@ -1,0 +1,32 @@
+name: Deployment to Dev-Main Server
+
+on:
+  push:
+    branches:    
+      - dev # Only run on pushes to dev branch
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+    - name: Install npm dependencies
+      run: npm install
+    - name: Run build task
+      run: npm run build --if-present
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@main
+      env:
+          SSH_PRIVATE_KEY: ${{ secrets.DEV_SERVER_SSH_PRIVATE_KEY }}
+          ARGS: "-rlgoDzc --delete"
+          SOURCE: "/dist/"
+          REMOTE_HOST: "207.154.193.30"
+          REMOTE_USER: "gitactions"
+          TARGET: "/var/www/landingpage"
+          EXCLUDE: "/dist/, /node_modules/"

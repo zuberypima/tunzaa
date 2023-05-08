@@ -1,0 +1,22 @@
+.swiper-button-next,
+.swiper-button-prev {
+  color: white;
+  border-radius: 5px;
+  border: 2px solid white;
+  border-radius: 100%;
+  padding: 35px;
+  transform: scale(0.7);
+}
+
+@media (max-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    transform: scale(0.5);
+  }
+}
+@media (max-width: 600px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    transform: scale(0.3);
+  }
+}

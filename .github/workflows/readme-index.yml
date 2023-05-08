@@ -1,0 +1,29 @@
+name: Generate Readme Index
+
+on:
+  push:
+    branches:    
+      - dev
+
+jobs:
+  generate-readme-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm install -g markdown-toc
+
+      - name: Generate Index
+        run: markdown-toc -i README.md
+
+      - name: Commit Changes
+        run: |
+          git config --global user.name "GitHub workflow"
+          git add README.md
+          git commit -m "Regenerate Readme Index"
+          git push
+        continue-on-error: true # So if nothing changed, no error is thrown because "there is nothing to commit"
